@@ -1,10 +1,12 @@
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Scanner;
 import java.util.Set;
 
 public class ControleTeleSena {
     private final Pessoa[] participants = new Pessoa[20];
     private final Pessoa[] winners = new Pessoa[20];
+    private final boolean slowMode = true;
 
     private final int highestNumber = 60, numbersPerSet = 25 , price = 10;
     private final Set<Integer> winnerNumbers = new HashSet<>();
@@ -58,16 +60,21 @@ public class ControleTeleSena {
     }
 
     public void sleep() {
+        Scanner scan = new Scanner(System.in);
+
         try{
-            Thread.sleep(1000);
-        }catch(Exception e){}
+            if (slowMode) {
+                System.out.println("\n\n ===== APERTE QUALQUER TECLA PRA PROSSEGUIR (slowMode == true) =====\n\n");
+                scan.nextLine();
+            } else Thread.sleep(1000);
+        } catch(Exception e) {}
     }
 
     public void startRaffle() {
         System.out.println("Lista de participantes: ");
-        // printar participantes
 
-        for(Pessoa names: participants) if (names != null) System.out.println(names.getName() + ", ");
+//        for(Pessoa names: participants) if (names != null) System.out.print(names.getName() + ", ");
+        for(int i =0; i < participants.length; i++) if (participants[i] != null) System.out.print(participants[i].getName() + ", " + (i > 0 && i % 5 == 0 ? "\n" : ""));
 
         sleep();
 
@@ -83,8 +90,6 @@ public class ControleTeleSena {
 
             winnerNumbers.add(sortedList.get(randomNumber));
 
-            System.out.println("quantidade de numeros sorteados: " + winnerNumbers.size());
-
             sortedList.remove(randomNumber);
         }
 
@@ -97,8 +102,15 @@ public class ControleTeleSena {
                         break;
                     }
 
+        System.out.print("Sorteados primeiros 25 números!\n[");
+        for (int winNum: winnerNumbers) System.out.print(winNum + ", ");
+        System.out.print("]\nResultado:\n");
+
         if (winners[0] != null) System.out.println("Temos um vencedor! ");
-        else System.out.println("Não houve vencedores... Sorteando o próximo número! ");
+
+        else System.out.println("Não houve vencedores... Seguindo o sorteio! ");
+
+        sleep();
 
         int j = highestNumber - numbersPerSet;
 
@@ -108,8 +120,6 @@ public class ControleTeleSena {
             int newNumber = sortedList.get(randomNumber);
 
             winnerNumbers.add(newNumber);
-
-            System.out.println("quantidade de numeros sorteados: " + winnerNumbers.size());
 
             sortedList.remove(randomNumber);
 

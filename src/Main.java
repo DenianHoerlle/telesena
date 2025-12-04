@@ -78,8 +78,7 @@ public class Main {
             selectedParticipants[i] = new Pessoa(names.get(randomNumber + 1 ));
             names.remove(randomNumber);
 
-//            int amountOfTelesenas = (int)(Math.random() * 15 + 1);
-            int amountOfTelesenas = 15;
+            int amountOfTelesenas = (int)(Math.random() * 15 + 1);
 
             controller.buyTelesena(selectedParticipants[i], amountOfTelesenas);
         }
